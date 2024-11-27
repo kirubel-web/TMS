@@ -134,17 +134,25 @@ const Loads = () => {
     }
   };
 
- const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  const [section, field] = name.split(".");
-  setFormData((prev) => ({
-    ...prev,
-    [section]: {
-      ...prev[section],
-      [field]: value,
-    },
-  }));
-};
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name.includes(".")) {
+      const [section, field] = name.split(".");
+      setFormData((prev) => ({
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [field]: value,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
   const handleEdit = (load) => {
     setFormData({
       customer: load.customer?._id || "",
