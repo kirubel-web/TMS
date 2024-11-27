@@ -1,4 +1,3 @@
-// models/Load.js
 const mongoose = require("mongoose");
 
 const loadSchema = new mongoose.Schema({
@@ -23,12 +22,14 @@ const loadSchema = new mongoose.Schema({
     required: true,
   },
   pickup: {
-    address: String,
+    latitude: String,
+    longitude: String,
     date: Date,
     time: String,
   },
   delivery: {
-    address: String,
+    latitude: String,
+    longitude: String,
     date: Date,
     time: String,
   },

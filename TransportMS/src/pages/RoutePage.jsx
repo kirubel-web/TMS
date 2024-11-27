@@ -12,11 +12,12 @@ const RoutePage = () => {
         const data = await response.json();
         const vehicleLocations = data.loads.map(load => ({
           id: load.vehicleId,
-          latitude: load.pickupLocation.latitude,
-          longitude: load.pickupLocation.longitude,
+          latitude: load.pickup.latitude,
+          longitude: load.pickup.longitude,
           status: load.status,
         }));
         setVehicles(vehicleLocations);
+		  console.log(vehicleLocations)
         setLoading(false);
       } catch (error) {
         console.error("Error fetching vehicle locations:", error);

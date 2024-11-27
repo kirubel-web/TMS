@@ -49,7 +49,6 @@ exports.createLoad = async (req, res) => {
     });
   }
 };
-
 // Get all loads
 exports.getAllLoads = async (req, res) => {
   try {

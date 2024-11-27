@@ -134,14 +134,17 @@ const Loads = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
+ const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  const [section, field] = name.split(".");
+  setFormData((prev) => ({
+    ...prev,
+    [section]: {
+      ...prev[section],
+      [field]: value,
+    },
+  }));
+};
   const handleEdit = (load) => {
     setFormData({
       customer: load.customer?._id || "",
@@ -249,8 +252,8 @@ const Loads = () => {
                       load.status === "completed"
                         ? "bg-green-100 text-green-800"
                         : load.status === "in_progress"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-gray-100 text-gray-800"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-gray-100 text-gray-800"
                     }`}
                   >
                     {load.status}
@@ -276,7 +279,7 @@ const Loads = () => {
         </table>
       </div>
 
-       {/* Create Load Modal */}
+      {/* Create Load Modal */}
       <Dialog
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -439,7 +442,7 @@ const Loads = () => {
                 className="bg-blue-500 text-white px-4 py-2 rounded"
               >
                 Save
-              </button>
+              </button>{" "}
             </div>
           </form>
         </div>
