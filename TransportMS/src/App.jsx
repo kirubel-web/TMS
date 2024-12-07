@@ -21,6 +21,7 @@ import Drivers from "./pages/Drivers";
 import Loads from "./pages/Loads";
 import RoutePage from "./pages/RoutePage";
 import Statistics from "./pages/Statistics";
+import Help from "./pages/Help";
 import {
   BrowserRouter as Router,
   Routes,
@@ -91,6 +92,7 @@ function MainContent() {
           <Route path="/routepages" element={<RoutePage />} />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/help" element={<Help />} />
           {/* Add other routes as needed */}
         </Routes>
       </div>

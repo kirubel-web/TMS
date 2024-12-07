@@ -34,12 +34,12 @@ const RoutePage = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">
         Live Vehicle Tracking
-      </h1>
+      </h2>
       {loading ? (
         <div className="flex justify-center items-center">
-          <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32 mb-4"></div>
+          <div className="loader ease-linear rounded-full border-8 border-t-8 border-blue-200 h-32 w-32 mb-4"></div>
         </div>
       ) : (
         <div className="h-[60vh]">

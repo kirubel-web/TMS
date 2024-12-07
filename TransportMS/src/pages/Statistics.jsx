@@ -27,6 +27,7 @@ const Statistics = () => {
       total: 0,
       list: [],
       cityCount: {},
+      departmentCount: {},
     },
     dispatchers: {
       total: 0,
@@ -71,6 +72,15 @@ const Statistics = () => {
         }
       });
 
+      // Process customer department
+      const departmentCount = {};
+      customersData.customers.forEach((customer) => {
+        if (customer.department) {
+          departmentCount[customer.department] =
+            (departmentCount[customer.department] || 0) + 1;
+        }
+      });
+
       // Process dispatcher roles
       const roleCount = {};
       dispatchersData.forEach((dispatcher) => {
@@ -84,6 +94,7 @@ const Statistics = () => {
           total: customerCountData.count,
           list: customersData.customers,
           cityCount,
+          departmentCount,
         },
         dispatchers: {
           total: dispatcherCountData.count,
@@ -112,6 +123,17 @@ const Statistics = () => {
           "#9966FF",
           "#FF9F40",
         ],
+      },
+    ],
+  };
+
+  const departmentChartData = {
+    labels: Object.keys(stats.customers.departmentCount),
+    datasets: [
+      {
+        label: "Customers by Department",
+        data: Object.values(stats.customers.departmentCount),
+        backgroundColor: ["#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
       },
     ],
   };
@@ -145,7 +167,7 @@ const Statistics = () => {
     <div className="p-6 bg-gray-50 min-h-screen">
       {/* Customer Statistics Section */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Customer Statistics
         </h2>
 
@@ -176,6 +198,31 @@ const Statistics = () => {
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">
+              Customers by Department
+            </h3>
+            <div className="h-[300px]">
+              <Bar
+                data={departmentChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: "top",
+                    },
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-lg col-span-2">
             <h3 className="text-lg font-semibold mb-4">Recent Customers</h3>
             <div className="overflow-x-auto">
               <table className="min-w-full table-auto">
@@ -183,18 +230,23 @@ const Statistics = () => {
                   <tr className="bg-gray-100">
                     <th className="px-4 py-2 text-left">Name</th>
                     <th className="px-4 py-2 text-left">City</th>
+                    <th className="px-4 py-2 text-left">Department</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {stats.customers.list.slice(-5).reverse().map((customer) => (
-                    <tr
-                      key={customer._id}
-                      className="border-b hover:bg-gray-50"
-                    >
-                      <td className="px-4 py-2">{`${customer.firstName} ${customer.lastName}`}</td>
-                      <td className="px-4 py-2">{customer.city}</td>
-                    </tr>
-                  ))}
+                  {stats.customers.list
+                    .slice(-5)
+                    .reverse()
+                    .map((customer) => (
+                      <tr
+                        key={customer._id}
+                        className="border-b hover:bg-gray-50"
+                      >
+                        <td className="px-4 py-2">{`${customer.firstName} ${customer.lastName}`}</td>
+                        <td className="px-4 py-2">{customer.city}</td>
+                        <td className="px-4 py-2">{customer.department}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -204,7 +256,7 @@ const Statistics = () => {
 
       {/* Dispatcher Statistics Section */}
       <section>
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Dispatcher Statistics
         </h2>
 

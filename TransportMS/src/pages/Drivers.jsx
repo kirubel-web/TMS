@@ -126,23 +126,23 @@ const Drivers = () => {
         <h3 className="text-lg font-medium text-gray-700 mb-4">Filters</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-600 mb-2">
               Type
             </label>
-            <select className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <select className="w-full border border-gray-300 bg-white rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-red-400 transition duration-150">
               <option>All</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-600 mb-2">
               Status
             </label>
-            <select className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <select className="w-full border border-gray-300 bg-white rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-red-400 transition duration-150">
               <option>All</option>
             </select>
           </div>
           <div className="flex items-end">
-            <button className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700">
+            <button className="w-full bg-gradient-to-r from-indigo-400 to-yellow-400 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:from-indigo-500 hover:to-yellow-500 transition duration-150">
               Apply
             </button>
           </div>

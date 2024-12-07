@@ -29,7 +29,7 @@ const Customer = () => {
   useEffect(() => {
     fetchCustomers();
     const intervalId = setInterval(() => {
-      fetchDispatchers();
+      fetchCustomers();
     }, 5000);
 
     // Cleanup interval on component unmount
@@ -54,6 +54,7 @@ const Customer = () => {
       country: formData.get("country"),
       rating: formData.get("rating"),
       notes: formData.get("notes"),
+      department: formData.get("department"),
     };
 
     if (!data.firstName || !data.lastName || !data.email) {
@@ -269,6 +270,28 @@ const Customer = () => {
                 placeholder="Country"
                 className="w-full p-2 border border-gray-300 rounded"
               />
+
+              <select
+                name="department"
+                className="w-full p-2 border border-gray-300 rounded"
+              >
+                <option>Select Department</option>
+                <option value="MinisterOffice">Minister Office</option>
+                <option value="MainAdministration">Main Administration</option>
+                <option value="InnovationDevelopment">
+                  Innovation Development
+                </option>
+                <option value="HumanResources">Human Resources</option>
+                <option value="Finance">Finance and procurement</option>
+                <option value="IT">
+                  Information and Communication Technology
+                </option>
+                <option value="Law">Law</option>
+                <option value="Audit">Audit</option>
+                <option value="Electronic government development">
+                  Electronic government development
+                </option>
+              </select>
               <select
                 name="rating"
                 className="w-full p-2 border border-gray-300 rounded"
