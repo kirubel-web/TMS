@@ -13,6 +13,7 @@ exports.createCustomer = async (req, res) => {
       country,
       rating,
       notes,
+      department,
     } = req.body;
 
     const customer = new Customer({
@@ -26,6 +27,7 @@ exports.createCustomer = async (req, res) => {
       country,
       rating,
       notes,
+      department,
     });
     console.log("Request Body:", req.body);
 

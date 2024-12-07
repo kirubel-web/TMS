@@ -57,6 +57,10 @@ const CustomerSchema = new mongoose.Schema({
     type: Boolean,
     default: false, // Set to true if the user deletes their account
   },
+  department: {
+    type: String,
+    trim: true,
+  },
 });
 
 module.exports = mongoose.model("Customer", CustomerSchema);
