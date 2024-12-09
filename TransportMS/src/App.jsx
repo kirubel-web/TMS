@@ -1,116 +1,93 @@
-import {
-  LayoutDashboard,
-  Users,
-  CarFront,
-  FileUser,
-  BaggageClaim,
-  Route as IconRoute,
-  Headset,
-  LifeBuoy,
-  Settings,
-  ChartLine,
-} from "lucide-react";
-import Sidebar, { SidebarItem } from "./components/Sidebar";
-import Header from "./components/Header";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import Router and Routes
+import NavBar from "./homepages/components/Nav/NavBar";
+import Hero from "./homepages/components/Hero/Hero";
+import Programs from "./homepages/components/Programs/Programs";
+import Title from "./homepages/components/Title/Title";
+import About from "./homepages/components/About/About";
+import Campus from "./homepages/components/Campus/Campus";
+import Contact from "./homepages/components/Contact/Contact";
+import LoginPage from "./homepages/pages/LoginPage";
+import AdminPage from "./homepages/pages/AdminPage";
+import CustomerPage from "./homepages/pages/CustomerPage";
+import SignUp from "./homepages/pages/SignupPage";
+import NewAcount from "./homepages/pages/NewAcountPage";
+import "./App.css";
 import "./index.css";
-import Profile from "./pages/Profile";
-import Customers from "./pages/Customers";
-import Vehicles from "./pages/Vehicles";
-import Dispatch from "./pages/Dispatch";
-import Drivers from "./pages/Drivers";
-import Loads from "./pages/Loads";
-import RoutePage from "./pages/RoutePage";
-import Statistics from "./pages/Statistics";
-import Help from "./pages/Help";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
 
-function SidebarItems() {
-  const location = useLocation();
+import { Link, Element } from "react-scroll";
 
-  const items = [
-    { icon: <LayoutDashboard size={20} />, text: "Dashboard", linkTo: "/" },
-    { icon: <Headset size={20} />, text: "Dispatch", linkTo: "/dispatch" },
-    { icon: <Users size={20} />, text: "Customers", linkTo: "/customers" },
-    { icon: <CarFront size={20} />, text: "Vehicles", linkTo: "/vehicles" },
-    { icon: <FileUser size={20} />, text: "Drivers", linkTo: "/drivers" },
-    { icon: <BaggageClaim size={20} />, text: "Loads", linkTo: "/loads" },
-    { icon: <IconRoute size={20} />, text: "Routes", linkTo: "/routepages" },
-    {
-      icon: <ChartLine size={20} />,
-      text: "Statistics",
-      linkTo: "/statistics",
-    },
-  ];
-
-  const settingsItems = [
-    { icon: <Settings size={20} />, text: "Settings", linkTo: "/settings" },
-    { icon: <LifeBuoy size={20} />, text: "Help", linkTo: "/help" },
-  ];
-
+const App = () => {
   return (
     <>
-      {items.map((item) => (
-        <SidebarItem
-          key={item.text}
-          icon={item.icon}
-          text={item.text}
-          linkTo={item.linkTo}
-          active={location.pathname === item.linkTo}
-        />
-      ))}
-      <hr className="my-3" />
-      {settingsItems.map((item) => (
-        <SidebarItem
-          key={item.text}
-          icon={item.icon}
-          text={item.text}
-          linkTo={item.linkTo}
-          active={location.pathname === item.linkTo}
-        />
-      ))}
+      <Router>
+        {/* Move your layout components (NavBar, Hero, etc.) inside Router */}
+
+        <Routes>
+          {/* Define routes for different pages */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/customer" element={<CustomerPage />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/newacount" element={<NewAcount />} />
+
+          {/* Default home route */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Element name="home" style={{}}>
+                  <NavBar />
+                </Element>
+
+                <Hero />
+                <div className="container">
+                  <Element
+                    name="service"
+                    style={{
+                      height: "100vh",
+                      backgroundColor: "#f4f4f4",
+                      paddingTop: "80px", // Optional additional padding for visual adjustment
+                    }}
+                  >
+                    <Title subTitle="Our Program" title="What We Offer" />
+                    <Programs />
+                  </Element>
+                  <Element
+                    name="about"
+                    style={{
+                      height: "100vh",
+                      backgroundColor: "#f4f4f4",
+                      paddingTop: "80px", // Optional additional padding for visual adjustment
+                    }}
+                  >
+                    <About />
+                  </Element>
+
+                  {/* <Title subTitle="Gallery" title="Campus Photo" /> */}
+                  {/* <Campus /> */}
+                  <Element
+                    name="contact"
+                    style={{
+                      marginTop: "20px", // Optional additional padding for visual adjustment
+                    }}
+                  >
+                    <Title
+                      subTitle="contact us"
+                      title="Get in Touch"
+                      style={{ paddingTop: "100px" }}
+                    />
+
+                    <Contact />
+                  </Element>
+                </div>
+              </>
+            }
+          />
+        </Routes>
+      </Router>
     </>
   );
-}
-
-function MainContent() {
-  return (
-    <div className="flex flex-col flex-1">
-      <Header />
-      <div className="flex-1 overflow-y-auto p-6">
-        <Routes>
-          <Route path="/" element={<div>Dashboard</div>} />
-          <Route path="/dispatch" element={<Dispatch />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="/vehicles" element={<Vehicles />} />
-          <Route path="/drivers" element={<Drivers />} />
-          <Route path="/loads" element={<Loads />} />
-          <Route path="/routepages" element={<RoutePage />} />
-          <Route path="/statistics" element={<Statistics />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/help" element={<Help />} />
-          {/* Add other routes as needed */}
-        </Routes>
-      </div>
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <Router>
-      <div className="flex h-screen">
-        <Sidebar>
-          <SidebarItems />
-        </Sidebar>
-        <MainContent />
-      </div>
-    </Router>
-  );
-}
+};
 
 export default App;

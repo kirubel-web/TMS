@@ -1,0 +1,63 @@
+/* RoleSelector.css */
+.role-selector-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f7fc;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.role-selector-heading {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.role-selector-dropdown {
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 250px;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+.role-selector-dropdown:focus {
+  outline: none;
+  border-color: #4CAF50; /* Green border on focus */
+}
+
+.role-selector-dropdown option {
+  padding: 10px;
+}
+
+.role-selector-container p {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #555;
+  text-align: center;
+}
+
+.role-selector-container button {
+  background-color: #008CBA; /* Blue color for the button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.role-selector-container button:hover {
+  background-color: #007bb5; /* Darker blue on hover */
+}
+
+.role-selector-container button:active {
+  background-color: #006699; /* Even darker blue on active click */
+}

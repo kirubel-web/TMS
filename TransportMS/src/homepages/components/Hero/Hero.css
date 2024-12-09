@@ -1,0 +1,86 @@
+.hero {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(rgba(119, 112, 166, 0.7), rgba(61, 58, 78, 0.7)),
+    url('../../assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: rgb(224, 159,5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-text {
+  align-items: center;
+  max-width: 800px;
+}
+.hero-text h1 {
+  font-size: 60px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  max-width: 700px;
+  margin: 10px auto 20px;
+  line-height: 1.4;
+  color: white;
+}
+.btn-div{
+	display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-btn{
+align-items: center;
+color: white;
+}
+.hero_span{
+padding-left: 20%;
+padding-right: 20%;
+}
+.selector-role{
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+
+}
+label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 10px;
+}
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+select:hover,
+select:focus {
+  border-color: #0066cc;
+  outline: none;
+}
+
+/* Option styling */
+option {
+  padding: 10px;
+  font-size: 14px;
+}
+.role-header{
+  color: white;
+  text-align: center;
+}
+.place{
+  text-align: center;
+}
