@@ -27,7 +27,6 @@ import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import CustomerPage from "./pages/CustomerPage";
 import SignUp from "./pages/SignupPage";
-import NewAcount from "./pages/NewAcountPage";
 
 import {
   BrowserRouter as Router,
@@ -136,7 +135,6 @@ function App() {
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/customer" element={<CustomerPage />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/newacount" element={<NewAcount />} />
 
         <Route path="/dash/*" element={<DashboardContent />} />
       </Routes>

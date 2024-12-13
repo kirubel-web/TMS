@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./LoginPage.css";
 
 export default function Login() {
@@ -13,10 +14,13 @@ export default function Login() {
     setError("");
 
     try {
-      const response = await axios.post("/api/users/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        {
+          email,
+          password,
+        },
+      );
 
       if (response.status === 200) {
         const { token, user } = response.data;
@@ -29,10 +33,11 @@ export default function Login() {
         if (user.role === "admin") {
           navigate("/dash");
         } else {
-          navigate("/surveys");
+          navigate("/customer");
         }
       }
     } catch (err) {
+      console.log(err);
       setError(
         err.response?.data?.error || "An error occurred. Please try again.",
       );
@@ -68,6 +73,15 @@ export default function Login() {
         <button className="btnlogin" type="submit">
           Sign In
         </button>
+        <div>
+          <Link
+            to="/signup"
+            className="stat-card"
+            style={{ textDecoration: "none" }}
+          >
+            <p>or create an account</p>
+          </Link>
+        </div>
         {error && <p className="error">{error}</p>}
       </form>
     </div>
