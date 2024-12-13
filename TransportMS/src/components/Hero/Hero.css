@@ -1,24 +1,30 @@
+/* Hero Section */
 .hero {
   width: 100%;
   min-height: 100vh;
   background: linear-gradient(rgba(119, 112, 166, 0.7), rgba(61, 58, 78, 0.7)),
-    url('../../assets/background.jpg');
+    url("../../assets/background.jpg");
   background-size: cover;
   background-position: center;
-  color: rgb(224, 159,5);
+  color: rgb(224, 159, 5);
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
+
 .hero-text {
   align-items: center;
   max-width: 800px;
+  text-align: center;
+  padding: 0 20px; /* Add padding to prevent text overflow */
 }
+
 .hero-text h1 {
   font-size: 60px;
   font-weight: 600;
-  text-align: center;
   margin-bottom: 20px;
+  word-wrap: break-word; /* Ensure long words break */
 }
 
 .hero-text p {
@@ -26,29 +32,39 @@
   margin: 10px auto 20px;
   line-height: 1.4;
   color: white;
+  word-wrap: break-word;
 }
-.btn-div{
-	display: flex;
+
+.btn-div {
+  display: flex;
   justify-content: center;
   align-items: center;
 }
-.hero-btn{
-align-items: center;
-color: white;
+
+.hero-btn {
+  align-items: center;
+  color: white;
+  text-align: center;
 }
-.hero_span{
-padding-left: 20%;
-padding-right: 20%;
+
+.hero_span {
+  padding-left: 10%; /* Adjust for better responsiveness */
+  padding-right: 10%;
+  display: inline-block;
+  text-align: center;
 }
-.selector-role{
+
+/* Role Selector */
+.selector-role {
   padding: 20px;
   background-color: #f4f4f9;
   border-radius: 8px;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   margin: 0 auto;
   text-align: center;
-
 }
+
 label {
   font-size: 16px;
   font-weight: 600;
@@ -56,6 +72,7 @@ label {
   display: block;
   margin-bottom: 10px;
 }
+
 select {
   width: 100%;
   padding: 8px;
@@ -72,15 +89,18 @@ select:focus {
   outline: none;
 }
 
-/* Option styling */
+/* Option Styling */
 option {
   padding: 10px;
   font-size: 14px;
 }
-.role-header{
+
+/* Headers and Alignment */
+.role-header {
   color: white;
   text-align: center;
 }
-.place{
+
+.place {
   text-align: center;
 }

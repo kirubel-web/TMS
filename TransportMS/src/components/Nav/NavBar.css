@@ -1,0 +1,40 @@
+nav {
+  width: 100%; /* Ensure full width */
+  background: rgb(131, 119, 118); /* Set the background color */
+  color: #fff;
+  padding: 10px 20px;
+  margin: 0; /* Remove any margin to avoid gaps */
+  position: fixed;
+  left: 0; /* Align to the left */
+  top: 0; /* Align to the top */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10; /* Ensure it stays above other elements */
+  border-radius: 0 0 20px 20px; /* Keep rounded bottom corners */
+  border-bottom: 1px solid rgb(131, 119, 118); /* Add a bottom border */
+  box-sizing: border-box; /* Include padding and border in width/height calculations */
+}
+
+.logo {
+  width: 180px; /* Adjust logo width as needed */
+}
+
+nav ul {
+  display: flex; /* Align list items horizontally */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+nav ul li {
+  display: inline-block;
+  list-style: none;
+  margin: 5px 20px;
+  font-size: 16px;
+}
+
+.dark_nav {
+  background: rgb(131, 119, 118); /* Darker background */
+  transition: background-color 0.5s ease; /* Smooth transition */
+}
+
