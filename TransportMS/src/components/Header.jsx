@@ -13,6 +13,13 @@ import {
 function Header() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+
+    window.location.href = "/login";
+  };
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
     // Additional logic to apply the theme, e.g., toggling a CSS class on <body>
@@ -74,7 +81,10 @@ function Header() {
         </button>
 
         {/* Logout */}
-        <button className="flex items-center space-x-1 hover:text-blue-500">
+        <button
+          onClick={handleLogout}
+          className="flex items-center space-x-1 hover:text-blue-500"
+        >
           <LogOut size={20} />
           <span>Logout</span>
         </button>

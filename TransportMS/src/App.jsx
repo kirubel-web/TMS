@@ -27,6 +27,8 @@ import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import CustomerPage from "./pages/CustomerPage";
 import SignUp from "./pages/SignupPage";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import NotFound from "./pages/NotFound";
 
 import {
   BrowserRouter as Router,
@@ -98,7 +100,6 @@ function SidebarItems() {
     </>
   );
 }
-
 function DashboardContent() {
   return (
     <div className="flex h-screen">
@@ -109,16 +110,88 @@ function DashboardContent() {
         <Header />
         <div className="flex-1 overflow-y-auto p-6">
           <Routes>
-            <Route path="/dashboard" element={<div>Dashboard</div>} />
-            <Route path="/dispatch" element={<Dispatch />} />
-            <Route path="/customers" element={<Customers />} />
-            <Route path="/vehicles" element={<Vehicles />} />
-            <Route path="/drivers" element={<Drivers />} />
-            <Route path="/loads" element={<Loads />} />
-            <Route path="/routepages" element={<RoutePage />} />
-            <Route path="/statistics" element={<Statistics />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/help" element={<Help />} />
+            <Route
+              path=""
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <div>Dashboard</div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="dispatch"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Dispatch />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="customers"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Customers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="vehicles"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Vehicles />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="drivers"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Drivers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="loads"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Loads />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="routepages"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <RoutePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="statistics"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Statistics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="help"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Help />
+                </ProtectedRoute>
+              }
+            />
+            {/* Catch-all route for undefined paths under /dash */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
@@ -137,6 +210,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
 
         <Route path="/dash/*" element={<DashboardContent />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

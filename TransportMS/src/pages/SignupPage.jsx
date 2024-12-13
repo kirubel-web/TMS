@@ -85,8 +85,8 @@ export default function SignUpPage() {
             onChange={(e) => setRole(e.target.value)}
             required
           >
-            <option value="customer">Customer</option>
-            <option value="admin">Admin</option>
+            <option value="customer">customer</option>
+            <option value="admin">admin</option>
           </select>
         </div>
         <button className="btnsignup" type="submit">
