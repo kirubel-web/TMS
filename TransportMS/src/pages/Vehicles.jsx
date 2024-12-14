@@ -4,7 +4,6 @@ import { Dialog, Transition } from "@headlessui/react";
 const Vehicles = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [vehicles, setVehicles] = useState([]);
-
   const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -35,6 +34,7 @@ const Vehicles = () => {
       }
       const data = await response.json();
       setVehicles(data.vehicles);
+      setFilteredVehicles(data.vehicles); // Display all vehicles on initial render
     } catch (error) {
       setError("Failed to fetch vehicles");
     }
@@ -44,10 +44,6 @@ const Vehicles = () => {
     fetchVehicles();
   }, []);
 
-  useEffect(() => {
-    applyFilters();
-  }, [filters, vehicles]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -55,6 +51,7 @@ const Vehicles = () => {
       [name]: value,
     }));
   };
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({
@@ -73,6 +70,7 @@ const Vehicles = () => {
     }
     setFilteredVehicles(filtered);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -96,6 +94,10 @@ const Vehicles = () => {
 
       const newVehicle = await response.json();
       setVehicles((prevVehicles) => [...prevVehicles, newVehicle.vehicle]);
+      setFilteredVehicles((prevVehicles) => [
+        ...prevVehicles,
+        newVehicle.vehicle,
+      ]);
       setIsOpen(false);
       setFormData({
         name: "",
@@ -124,6 +126,9 @@ const Vehicles = () => {
         throw new Error(errorData.message || "Something went wrong");
       }
       setVehicles((prev) =>
+        prev.filter((vehicle) => vehicle._id !== vehicleId),
+      );
+      setFilteredVehicles((prev) =>
         prev.filter((vehicle) => vehicle._id !== vehicleId),
       );
       closeDeleteConfirm();
@@ -187,12 +192,16 @@ const Vehicles = () => {
             </select>
           </div>
           <div className="flex items-end">
-            <button className="w-full bg-gradient-to-r from-indigo-400 to-yellow-400 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:from-indigo-500 hover:to-yellow-500 transition duration-150">
+            <button
+              onClick={applyFilters}
+              className="w-full bg-gradient-to-r from-indigo-400 to-yellow-400 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:from-indigo-500 hover:to-yellow-500 transition duration-150"
+            >
               Apply
             </button>
           </div>
         </div>
       </div>
+
       <div className="bg-white shadow-sm rounded-md">
         <div className="p-4 flex justify-between items-center border-b border-gray-200">
           <h3 className="text-lg font-medium text-gray-700">Vehicles</h3>

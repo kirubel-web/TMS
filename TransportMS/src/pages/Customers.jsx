@@ -4,12 +4,17 @@ import { Dialog, Transition } from "@headlessui/react";
 const Customer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [customers, setCustomers] = useState([]);
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState({
     isOpen: false,
     customerId: null,
     customerName: "",
+  });
+  const [filters, setFilters] = useState({
+    nameOrder: "ascending",
+    rating: "All",
   });
 
   const fetchCustomers = async () => {
@@ -20,6 +25,7 @@ const Customer = () => {
       }
       const data = await response.json();
       setCustomers(data.customers);
+      applyFilters(data.customers); // Apply filters to the fetched data
     } catch (error) {
       console.error(error);
       setError("Failed to fetch customers");
@@ -28,13 +34,33 @@ const Customer = () => {
 
   useEffect(() => {
     fetchCustomers();
-    const intervalId = setInterval(() => {
-      fetchCustomers();
-    }, 5000);
 
     // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
+    //return () => clearInterval(intervalId);
   }, []);
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const applyFilters = (data = customers) => {
+    let filtered = [...data];
+    if (filters.rating !== "All") {
+      filtered = filtered.filter(
+        (customer) => customer.rating === filters.rating,
+      );
+    }
+    if (filters.nameOrder === "ascending") {
+      filtered.sort((a, b) => a.firstName.localeCompare(b.firstName));
+    } else if (filters.nameOrder === "descending") {
+      filtered.sort((a, b) => b.firstName.localeCompare(a.firstName));
+    }
+    setFilteredCustomers(filtered);
+  };
 
   const handleAddCustomer = async (e) => {
     e.preventDefault();
@@ -79,10 +105,8 @@ const Customer = () => {
       }
 
       const newCustomer = await response.json();
-
-      // Update the customers state by adding the new customer
       setCustomers((prevCustomers) => [...prevCustomers, newCustomer.customer]);
-
+      applyFilters([...customers, newCustomer.customer]); // Apply filters to the updated data
       setIsModalOpen(false);
       form.reset();
     } catch (error) {
@@ -92,6 +116,7 @@ const Customer = () => {
       setIsLoading(false);
     }
   };
+
   const handleDeleteCustomer = async (customerId) => {
     try {
       const response = await fetch(
@@ -107,6 +132,7 @@ const Customer = () => {
       setCustomers((prev) =>
         prev.filter((customer) => customer._id !== customerId),
       );
+      applyFilters(customers.filter((customer) => customer._id !== customerId)); // Apply filters to the updated data
       closeDeleteConfirm();
     } catch (error) {
       console.error(error);
@@ -133,6 +159,53 @@ const Customer = () => {
   return (
     <div className="p-6 space-y-8 bg-gray-100 min-h-screen">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Customers</h2>
+
+      <div className="bg-white p-4 rounded-md shadow-sm">
+        <h3 className="text-lg font-medium text-gray-700 mb-4">Filters</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-2">
+              Name Order
+            </label>
+            <select
+              name="nameOrder"
+              value={filters.nameOrder}
+              onChange={handleFilterChange}
+              className="w-full border border-gray-300 bg-white rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-red-400 transition duration-150"
+            >
+              <option value="ascending">Ascending</option>
+              <option value="descending">Descending</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-2">
+              Rating
+            </label>
+            <select
+              name="rating"
+              value={filters.rating}
+              onChange={handleFilterChange}
+              className="w-full border border-gray-300 bg-white rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-red-400 transition duration-150"
+            >
+              <option value="All">All</option>
+              <option value="5">5</option>
+              <option value="4">4</option>
+              <option value="3">3</option>
+              <option value="2">2</option>
+              <option value="1">1</option>
+            </select>
+          </div>
+          <div className="flex items-end">
+            <button
+              onClick={() => applyFilters()}
+              className="w-full bg-gradient-to-r from-indigo-400 to-yellow-400 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:from-indigo-500 hover:to-yellow-500 transition duration-150"
+            >
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="bg-white shadow-sm rounded-md">
         <div className="p-4 flex justify-between items-center border-b border-gray-200">
           <h3 className="text-lg font-medium text-gray-700">Customers</h3>
@@ -157,15 +230,14 @@ const Customer = () => {
                 <th className="py-2">Company</th>
                 <th className="py-2">Phones</th>
                 <th className="py-2">Address</th>
-
                 <th className="py-2">Rating</th>
                 <th className="py-2">Notes</th>
                 <th className="py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {customers.length > 0 ? (
-                customers.map((customer) => (
+              {filteredCustomers.length > 0 ? (
+                filteredCustomers.map((customer) => (
                   <tr key={customer._id} className="border-b">
                     <td className="py-2">
                       {customer.firstName} {customer.lastName}
@@ -174,10 +246,8 @@ const Customer = () => {
                     <td className="py-2">{customer.company}</td>
                     <td className="py-2">{customer.phones}</td>
                     <td className="py-2">{customer.address}</td>
-
                     <td className="py-2">{customer.rating}</td>
                     <td className="py-2">{customer.notes}</td>
-
                     <td className="py-2">
                       <button
                         onClick={() =>
@@ -195,7 +265,7 @@ const Customer = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="3" className="text-gray-500 py-2">
+                  <td colSpan="8" className="text-gray-500 py-2">
                     No customers found
                   </td>
                 </tr>
@@ -204,6 +274,7 @@ const Customer = () => {
           </table>
         </div>
       </div>
+
       <Dialog
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -270,7 +341,6 @@ const Customer = () => {
                 placeholder="Country"
                 className="w-full p-2 border border-gray-300 rounded"
               />
-
               <select
                 name="department"
                 className="w-full p-2 border border-gray-300 rounded"

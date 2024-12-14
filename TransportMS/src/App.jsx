@@ -29,6 +29,7 @@ import CustomerPage from "./pages/CustomerPage";
 import SignUp from "./pages/SignupPage";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 
 import {
   BrowserRouter as Router,
@@ -44,7 +45,7 @@ function SidebarItems() {
     {
       icon: <LayoutDashboard size={20} />,
       text: "Dashboard",
-      linkTo: "/dash/dashboard",
+      linkTo: "/dash",
     },
     { icon: <Headset size={20} />, text: "Dispatch", linkTo: "/dash/dispatch" },
     { icon: <Users size={20} />, text: "Customers", linkTo: "/dash/customers" },
@@ -111,10 +112,10 @@ function DashboardContent() {
         <div className="flex-1 overflow-y-auto p-6">
           <Routes>
             <Route
-              path="dashboard"
+              path=""
               element={
                 <ProtectedRoute requiredRole="admin">
-                  <div>Dashboard</div>
+                  <Dashboard />{" "}
                 </ProtectedRoute>
               }
             />

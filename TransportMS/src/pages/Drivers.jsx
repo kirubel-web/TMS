@@ -21,6 +21,12 @@ const Drivers = () => {
     trailer: "",
     status: "active",
   });
+  const [selectedType, setSelectedType] = useState("All");
+  const [selectedStatus, setSelectedStatus] = useState("All");
+  const [appliedFilters, setAppliedFilters] = useState({
+    type: "All",
+    status: "All",
+  });
 
   const fetchDrivers = async () => {
     try {
@@ -45,6 +51,18 @@ const Drivers = () => {
       ...prev,
       [name]: name === "phones" ? [value] : value,
     }));
+  };
+
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value);
+  };
+
+  const handleStatusChange = (e) => {
+    setSelectedStatus(e.target.value);
+  };
+
+  const handleApplyFilters = () => {
+    setAppliedFilters({ type: selectedType, status: selectedStatus });
   };
 
   const handleSubmit = async (e) => {
@@ -118,6 +136,14 @@ const Drivers = () => {
     });
   };
 
+  const filteredDrivers = drivers.filter((driver) => {
+    return (
+      (appliedFilters.type === "All" || driver.type === appliedFilters.type) &&
+      (appliedFilters.status === "All" ||
+        driver.status === appliedFilters.status)
+    );
+  });
+
   return (
     <div className="p-6 space-y-8 bg-gray-100 min-h-screen">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Drivers</h2>
@@ -129,20 +155,35 @@ const Drivers = () => {
             <label className="block text-sm font-medium text-gray-600 mb-2">
               Type
             </label>
-            <select className="w-full border border-gray-300 bg-white rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-red-400 transition duration-150">
-              <option>All</option>
+            <select
+              className="w-full border border-gray-300 bg-white rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-red-400 transition duration-150"
+              value={selectedType}
+              onChange={handleTypeChange}
+            >
+              <option value="All">All</option>
+              <option value="full-time">Full-time</option>
+              <option value="part-time">Part-time</option>
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-2">
               Status
             </label>
-            <select className="w-full border border-gray-300 bg-white rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-red-400 transition duration-150">
-              <option>All</option>
+            <select
+              className="w-full border border-gray-300 bg-white rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-red-400 transition duration-150"
+              value={selectedStatus}
+              onChange={handleStatusChange}
+            >
+              <option value="All">All</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
             </select>
           </div>
           <div className="flex items-end">
-            <button className="w-full bg-gradient-to-r from-indigo-400 to-yellow-400 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:from-indigo-500 hover:to-yellow-500 transition duration-150">
+            <button
+              onClick={handleApplyFilters}
+              className="w-full bg-gradient-to-r from-indigo-400 to-yellow-400 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:from-indigo-500 hover:to-yellow-500 transition duration-150"
+            >
               Apply
             </button>
           </div>
@@ -193,8 +234,8 @@ const Drivers = () => {
               </tr>
             </thead>
             <tbody>
-              {drivers.length > 0 ? (
-                drivers.map((driver) => (
+              {filteredDrivers.length > 0 ? (
+                filteredDrivers.map((driver) => (
                   <tr key={driver._id} className="border-b">
                     <td className="px-4 py-2">{driver.name}</td>
                     <td className="px-4 py-2">{driver.type}</td>
