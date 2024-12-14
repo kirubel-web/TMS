@@ -13,7 +13,7 @@ exports.getUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const { email, organization, password, name, role } = req.body;
+    const { email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -25,11 +25,13 @@ exports.createUser = async (req, res) => {
 
     const user = new User({
       email,
-      organization,
+
       password: hashedPassword,
-      name,
-      role: role || "user",
+
+      role: role || "customer",
     });
+
+    console.log(req.body.role); // If using Express, log the role field from the request
 
     await user.save();
 

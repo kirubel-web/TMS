@@ -111,7 +111,7 @@ function DashboardContent() {
         <div className="flex-1 overflow-y-auto p-6">
           <Routes>
             <Route
-              path=""
+              path="dashboard"
               element={
                 <ProtectedRoute requiredRole="admin">
                   <div>Dashboard</div>
