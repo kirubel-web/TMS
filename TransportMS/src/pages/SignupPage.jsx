@@ -8,8 +8,29 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("Customer"); // Default role
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const handleSendOtp = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/send-otp", { email });
+      setOtpSent(true);
+    } catch (error) {
+      setError("Failed to send OTP");
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/verify-otp", { email, otp });
+      setOtpVerified(true);
+    } catch (error) {
+      setError("Invalid OTP");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +41,11 @@ export default function SignUpPage() {
       return;
     }
 
+    if (!otpVerified) {
+      setError("Please verify the OTP first.");
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/users/create",
@@ -27,7 +53,7 @@ export default function SignUpPage() {
           email,
           password,
           role, // Include role in the request
-        },
+        }
       );
 
       if (response.status === 201) {
@@ -36,7 +62,7 @@ export default function SignUpPage() {
       }
     } catch (err) {
       setError(
-        err.response?.data?.error || "An error occurred. Please try again.",
+        err.response?.data?.error || "An error occurred. Please try again."
       );
     }
   };
@@ -89,9 +115,31 @@ export default function SignUpPage() {
             <option value="admin">admin</option>
           </select>
         </div>
-        <button className="btnsignup" type="submit">
+        <div className="form-group otp-section">
+          <button type="button" onClick={handleSendOtp} disabled={otpSent}>
+            {otpSent ? "OTP Sent" : "Send OTP"}
+          </button>
+        </div>
+        {otpSent && (
+          <div className="form-group otp-section">
+            <input
+              type="text"
+              id="otp"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              required
+              placeholder="Enter OTP"
+            />
+            <button type="button" onClick={handleVerifyOtp} disabled={otpVerified}>
+              {otpVerified ? "OTP Verified" : "Verify OTP"}
+            </button>
+          </div>
+        )}
+       
+        <button className="btnsignup" type="submit" disabled={!otpVerified}>
           Sign Up
         </button>
+
         <div>
           <Link
             to="/login"

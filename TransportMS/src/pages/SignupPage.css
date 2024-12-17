@@ -128,3 +128,12 @@ p {
 .signup-form select:hover {
   border-color: #1877f2;
 }
+.otp-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.otp-section input {
+  margin-bottom: 10px;
+}

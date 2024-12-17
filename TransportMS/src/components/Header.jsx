@@ -6,8 +6,7 @@ import {
   Bell,
   User,
   LogOut,
-  Sun,
-  Moon,
+
 } from "lucide-react";
 
 function Header() {
@@ -71,14 +70,7 @@ function Header() {
           <span>Profile</span>
         </Link>
 
-        {/* Day/Night Toggle */}
-        <button
-          onClick={toggleTheme}
-          className="flex items-center space-x-1 hover:text-blue-500"
-        >
-          {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-          <span>{isDarkMode ? "Day" : "Night"}</span>
-        </button>
+       
 
         {/* Logout */}
         <button

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
 
 const Vehicles = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +38,24 @@ const Vehicles = () => {
       setFilteredVehicles(data.vehicles); // Display all vehicles on initial render
     } catch (error) {
       setError("Failed to fetch vehicles");
+    }
+  };
+  const handleStatusChange = async (vehicleId, currentStatus) => {
+    const newStatus = currentStatus === "active" ? "inactive" : "active";
+    try {
+      await axios.patch(`http://localhost:5000/api/vehicles/${vehicleId}/status`, { status: newStatus });
+      setVehicles((prev) => prev.map((vehicle) => {
+        if (vehicle._id === vehicleId) {
+          return {
+            ...vehicle,
+            status: newStatus,
+          };
+        }
+        return vehicle;
+      }));
+      fetchVehicles(); // Refresh the vehicle list
+    } catch (error) {
+      setError("Failed to update status");
     }
   };
 
@@ -241,6 +260,16 @@ const Vehicles = () => {
                     <td className="px-4 py-2">{vehicle.model}</td>
                     <td className="px-4 py-2">{vehicle.year}</td>
                     <td className="px-4 py-2">{vehicle.status}</td>
+                    <td className="px-4 py-2">
+                      <button
+                        onClick={() =>
+                          handleStatusChange(vehicle._id, vehicle.status)
+                        }
+                        className="text-blue-500"
+                      >
+                        {vehicle.status === "active" ? "Deactivate" : "Activate"}
+                      </button>
+                    </td>
                     <td className="px-4 py-2">
                       <button
                         onClick={() =>

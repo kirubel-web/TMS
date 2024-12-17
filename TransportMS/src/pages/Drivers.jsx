@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
 
 const Drivers = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +45,26 @@ const Drivers = () => {
   useEffect(() => {
     fetchDrivers();
   }, []);
+
+  const handlestatusChange = async (driverId, currentStatus) => {
+    const newStatus = currentStatus === "active" ? "inactive" : "active";
+    try {
+      await axios.patch(`http://localhost:5000/api/drivers/${driverId}/status`, { status: newStatus });
+      setDrivers((prev) => prev.map((driver) => {
+        if (driver._id === driverId) {
+          return {
+            ...driver,
+            status: newStatus,
+          };
+        }
+        return driver;
+      }));
+      fetchDrivers(); // Refresh the driver list
+    } catch (error) {
+      setError("Failed to update status");
+    }
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,6 +123,7 @@ const Drivers = () => {
       setIsLoaded(false);
     }
   };
+
 
   const handleDeleteDriver = async (driverId) => {
     try {
@@ -245,6 +267,11 @@ const Drivers = () => {
                     <td className="px-4 py-2">{driver.truck}</td>
                     <td className="px-4 py-2">{driver.trailer}</td>
                     <td className="px-4 py-2">{driver.status}</td>
+                    <td>
+                <button onClick={() => handlestatusChange(driver._id, driver.status)}>
+                  {driver.status === "active" ? "Deactivate" : "Activate"}
+                </button>
+              </td>
                     <td className="px-4 py-2">
                       <button
                         onClick={() =>

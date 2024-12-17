@@ -52,9 +52,14 @@ const Loads = () => {
   const fetchDrivers = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/drivers");
+      if (!response.ok) {
+        throw new Error("Failed to fetch drivers");
+      }
+
       const data = await response.json();
-      setDrivers(data.drivers || []);
-      console.log(data.drivers);
+      const activeDrivers = data.drivers.filter(driver => driver.status === "active");
+      setDrivers(activeDrivers);
+      console.log(activeDrivers);
     } catch (error) {
       console.error("Error fetching drivers:", error);
     }
@@ -63,9 +68,14 @@ const Loads = () => {
   const fetchVehicles = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/vehicles");
+      if (!response.ok) {
+        throw new Error("Failed to fetch vehicles");
+      }
+
       const data = await response.json();
-      setVehicles(data.vehicles || []);
-      console.log(data.vehicles);
+      const activeVehicles = data.vehicles.filter(vehicle => vehicle.status === "active");
+      setVehicles(activeVehicles);
+      console.log(activeVehicles);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
     }
