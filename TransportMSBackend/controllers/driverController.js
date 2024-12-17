@@ -131,3 +131,24 @@ exports.getAllDrivers = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.updateDriverStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const driver = await Driver.findById(id);
+    if (!driver) {
+      return res.status(404).json({ error: "Driver not found" });
+    }
+
+    driver.status = status;
+    await driver.save();
+
+    res.status(200).json({
+      message: "Driver status updated successfully",
+      driver,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

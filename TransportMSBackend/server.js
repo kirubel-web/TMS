@@ -8,6 +8,7 @@ const loadRoute = require("./routes/loadRoute");
 const userRoute = require("./routes/userRoute");
 const vehicleRoute = require("./routes/vehicleRoute");
 const dispatcherRoute = require("./routes/dispatcherRoute");
+const otpRoute = require('./routes/otpRoute');
 // const authRouter = require("./routes/auth");
 
 dotenv.config();
@@ -39,6 +40,7 @@ app.use("/api/loads", loadRoute);
 app.use("/api/users", userRoute);
 app.use("/api/vehicles", vehicleRoute);
 app.use("/api/dispatchers", dispatcherRoute);
+app.use('/api', otpRoute);
 
 const PORT = process.env.PORT || 5000;
 
