@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   CitySelect,
   CountrySelect,
@@ -9,9 +10,65 @@ import {
 } from "react-country-state-city";
 
 const Profile = () => {
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    company: "",
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    zipCode: "",
+    notes: "",
+  });
+
+  useEffect(() => {
+    // Fetch user data from backend
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("authToken");
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/users/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("authToken");
+    try {
+      await axios.put("http://localhost:5000/api/users/profile", user, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert("Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile");
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-8 bg-gray-100 shadow-md">
-      <form className="space-y-8">
+      <form className="space-y-8" onSubmit={handleSubmit}>
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-gray-700">
             Profile Information
@@ -23,6 +80,9 @@ const Profile = () => {
               </label>
               <input
                 type="email"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -32,6 +92,8 @@ const Profile = () => {
               </label>
               <input
                 type="password"
+                name="password"
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -41,6 +103,9 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="firstName"
+                value={user.firstName}
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -50,6 +115,9 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="lastName"
+                value={user.lastName}
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -67,6 +135,9 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="company"
+                value={user.company}
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -76,6 +147,9 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="phone"
+                value={user.phone}
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -88,6 +162,8 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="fax"
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -97,6 +173,8 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="website"
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -109,6 +187,9 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="address"
+                value={user.address}
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -118,6 +199,9 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="city"
+                value={user.city}
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -128,9 +212,15 @@ const Profile = () => {
               <label className="block text-sm font-medium text-gray-700">
                 *State / Province
               </label>
-              <select className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                <option>Alabama</option>
-                <option>Alaska</option>
+              <select
+                name="state"
+                value={user.state}
+                onChange={handleChange}
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              >
+                <option value="">Select State</option>
+                <option value="Alabama">Alabama</option>
+                <option value="Alaska">Alaska</option>
                 {/* Add more options as needed */}
               </select>
             </div>
@@ -138,8 +228,14 @@ const Profile = () => {
               <label className="block text-sm font-medium text-gray-700">
                 *Country
               </label>
-              <select className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                <option>United States</option>
+              <select
+                name="country"
+                value={user.country}
+                onChange={handleChange}
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              >
+                <option value="">Select Country</option>
+                <option value="United States">United States</option>
                 {/* Add more options as needed */}
               </select>
             </div>
@@ -149,6 +245,9 @@ const Profile = () => {
               </label>
               <input
                 type="text"
+                name="zipCode"
+                value={user.zipCode}
+                onChange={handleChange}
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
@@ -159,6 +258,9 @@ const Profile = () => {
               Notes
             </label>
             <textarea
+              name="notes"
+              value={user.notes}
+              onChange={handleChange}
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               rows="3"
             ></textarea>

@@ -37,7 +37,7 @@ function Header() {
       <div className="flex items-left space-x-6 text-black dark:text-white-900">
         {/* Help Center */}
         <Link
-          to="/help"
+          to="/dash/help"
           className="flex items-center space-x-1 hover:text-green-500"
         >
           <HelpCircle size={20} />
@@ -46,7 +46,7 @@ function Header() {
 
         {/* Support */}
         <Link
-          to="/support"
+          to="/dash/support"
           className="flex items-center space-x-1 hover:text-green-500"
         >
           <LifeBuoy size={20} />
@@ -55,7 +55,7 @@ function Header() {
 
         {/* Notifications */}
         <Link
-          to="/notifications"
+          to="/dash/notifications"
           className="flex items-center space-x-1 hover:text-green-500"
         >
           <Bell size={20} />
@@ -64,7 +64,7 @@ function Header() {
 
         {/* Profile */}
         <Link
-          to="/profile"
+          to="/dash/profile"
           className="flex items-center space-x-1 hover:text-blue-500"
         >
           <User size={20} />

@@ -15,12 +15,19 @@ const NavBar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-10 flex items-center justify-between px-5 py-3 bg-gray-900 ${
+      className={`fixed top-0 left-0 w-full z-10 flex items-center justify-between px-5 py-3 bg-black-900 ${
         sticky ? "shadow-md bg-gray-900" : ""
       } transition-all duration-500 rounded-b-lg`}
     >
-      <img src={logo} alt="Logo" className="w-32" />
-      <ul className="flex items-center space-x-8">
+      <Link
+        to="home"
+        smooth={true}
+        duration={800}
+        className="cursor-pointer text-white hover:text-yellow-400 transition-colors"
+      >
+        <img src={logo} alt="Logo" className="w-36 ml-12" />
+      </Link>
+      <ul className="flex items-center space-x-8 mr-10">
         <Link
           to="home"
           smooth={true}
@@ -51,7 +58,7 @@ const NavBar = () => {
           duration={500}
           className="cursor-pointer"
         >
-          <button className="bg-yellow-500 text-gray-900 font-semibold py-2 px-4 rounded-lg shadow hover:bg-yellow-600 transition duration-300">
+          <button className="bg-yellow-600 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow hover:bg-yellow-700 transition duration-300">
             Contact Us
           </button>
         </Link>

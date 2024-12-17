@@ -207,7 +207,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/customer" element={<CustomerPage />} />
+        <Route
+          path="/customer"
+          element={
+            <ProtectedRoute requiredRole="Customer">
+              <CustomerPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/signup" element={<SignUp />} />
 
         <Route path="/dash/*" element={<DashboardContent />} />
